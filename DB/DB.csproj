@@ -41,11 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitiesDB.cs" />
     <Compile Include="IEntitiesDB.cs" />
     <Compile Include="IApplicationDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MessageBox\MessageBox.csproj">
+      <Project>{a52db39b-2374-4187-8d28-2eaeed1ed632}</Project>
+      <Name>MessageBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{7822F69E-DDB7-4D15-9E02-18B7CB68E1CA}</Project>
       <Name>Models</Name>
