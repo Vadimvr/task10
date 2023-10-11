@@ -1,4 +1,5 @@
 ﻿using Presenter.MessageBox;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -7,10 +8,11 @@ namespace BL
     public class OpeFileService
     {
         private IMessageService message;
+        public event EventHandler LoadExcelFile;
 
-        public OpeFileService(IMessageService message) 
+        public OpeFileService(IMessageService message)
         {
-            this.message = message; 
+            this.message = message;
         }
         public void Open()
         {
@@ -19,7 +21,7 @@ namespace BL
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.InitialDirectory = "E:\\";
                 openFileDialog.Filter = "xlsx files (*.xlsx)|*.xlsx";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
@@ -28,18 +30,11 @@ namespace BL
                 {
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
-
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
-
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        fileContent = reader.ReadToEnd();
-                    }
+                    if (LoadExcelFile != null) LoadExcelFile(filePath, EventArgs.Empty);
+                    message.Show("File Content at path: " + filePath);
                 }
             }
 
-            message. Show("File Content at path: " + filePath);
         }
     }
 }

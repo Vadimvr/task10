@@ -37,14 +37,14 @@
             this.stepBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.modeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.stepBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.StepsDataGridView = new System.Windows.Forms.DataGridView();
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.UpdateDbButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.modeAndStepsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // loginButton
@@ -97,16 +97,16 @@
             // 
             this.stepBindingSource1.DataSource = typeof(Models.Step);
             // 
-            // dataGridView
+            // StepsDataGridView
             // 
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.StepsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(174, 12);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(614, 400);
-            this.dataGridView.TabIndex = 4;
+            this.StepsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.StepsDataGridView.Location = new System.Drawing.Point(174, 12);
+            this.StepsDataGridView.Name = "StepsDataGridView";
+            this.StepsDataGridView.Size = new System.Drawing.Size(614, 400);
+            this.StepsDataGridView.TabIndex = 4;
             // 
             // OpenFileButton
             // 
@@ -133,7 +133,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.UpdateDbButton);
             this.Controls.Add(this.OpenFileButton);
-            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.StepsDataGridView);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.emailTextBox);
             this.Controls.Add(this.RegisterButton);
@@ -144,7 +144,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.modeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,7 +160,7 @@
         private System.Windows.Forms.BindingSource modeAndStepsBindingSource;
         private System.Windows.Forms.BindingSource modeBindingSource;
         private System.Windows.Forms.BindingSource stepBindingSource1;
-        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.DataGridView StepsDataGridView;
         private System.Windows.Forms.Button OpenFileButton;
         private System.Windows.Forms.Button UpdateDbButton;
     }

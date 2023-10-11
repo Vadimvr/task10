@@ -13,8 +13,8 @@ namespace Presenter
         IMainWindow view = null;
         IMainBL bl = null;
         IMessageService message = null;
-        BindingList<ModeAndSteps> ds;
-        List<ModeAndSteps> oldList;
+        BindingList<Step> dsSteps;
+        List<Step> oldList;
         public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
         {
             this.view = view;
@@ -24,7 +24,8 @@ namespace Presenter
             this.view.Login += new EventHandler(Login);
             this.view.Register += new EventHandler(Register);
             this.bl.LoadDbHandler += new EventHandler(LoadDataBase);
-            
+            this.bl.DataUpdatedHandler += new EventHandler(UpdeteDataGrid);
+
             this.view.DeleteRow += new EventHandler(RemoveEntity);
 
             this.view.UpdateDb += bl.UpdateDb;
@@ -33,6 +34,10 @@ namespace Presenter
             this.view.DataGridViewDataErrorHandler += new EventHandler(DataGridViewDataError);
         }
 
+        private void UpdeteDataGrid(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void DataGridViewDataError(object sender, EventArgs ea)
         {
@@ -60,8 +65,8 @@ namespace Presenter
                 int i = -1;
                 if (int.TryParse(temp.ToString(), out i) && i != -1 && i < oldList.Count)
                 {
-                    var id = ds[i].ID;
-                    ds.RemoveAt(i);
+                    var id = dsSteps[i].ID;
+                    dsSteps.RemoveAt(i);
                     bl.RemoveEntity(id, e);
                 }
             }
@@ -69,13 +74,13 @@ namespace Presenter
 
         private void LoadDataBase(object sender, EventArgs e)
         {
-            if (sender is List<ModeAndSteps>)
+            if (sender is List<Step>)
             {
-                oldList = (List<ModeAndSteps>)sender;
-                if (ds == null)
+                oldList = (List<Step>)sender;
+                if (dsSteps == null)
                 {
-                    ds = new BindingList<ModeAndSteps>();
-                    this.view.DataGridView.DataSource = ds;
+                    dsSteps = new BindingList<Step>();
+                    this.view.DataGridView.DataSource = dsSteps;
                     var deleteButtonColumn = new DataGridViewButtonColumn();
                     deleteButtonColumn.Text = "Delete";
                     deleteButtonColumn.UseColumnTextForButtonValue = true;
@@ -83,11 +88,11 @@ namespace Presenter
                     this.view.DataGridView.Columns.Add(deleteButtonColumn);
                 }
                 else
-                    ds.Clear();
+                    dsSteps.Clear();
 
                 foreach (var item in oldList)
                 {
-                    ds.Add(item);
+                    dsSteps.Add(item);
                 }
 
             }

@@ -11,6 +11,7 @@ namespace BL
         Authorization Authorization { get; }
 
         event EventHandler LoadDbHandler;
+        event EventHandler DataUpdatedHandler;
         void OpenFile(object sender, EventArgs e);
         void RemoveEntity(object sender, EventArgs e);
         void UpdateDb(object sender, EventArgs e);
@@ -24,9 +25,12 @@ namespace BL
         public Authorization Authorization { get; private set; }
         IApplicationDB db;
         private DefaultData defaultData;
+        private XlsxConversionToDB xlsxToDb;
+
 
         public event EventHandler LoadDbHandler;
         public event EventHandler OpenFileHandler;
+        public event EventHandler DataUpdatedHandler;
 
         public MainBL(IMessageService message)
         {
@@ -35,9 +39,11 @@ namespace BL
             this.defaultData = new DefaultData(this.db);
             this.defaultData.Create();
             this.ofd = new OpeFileService(message);
+            this.xlsxToDb = new XlsxConversionToDB(this.db);
+            this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
             this.Authorization = new Authorization(message, this.db);
-            this.Authorization.LoadDbHandler += new EventHandler(LoadDb); ;
+            this.Authorization.LoadDbHandler += new EventHandler(LoadDb);
 
         }
 
@@ -45,10 +51,10 @@ namespace BL
         {
             if (LoadDbHandler != null)
             {
-                List<ModeAndSteps> steps = new List<ModeAndSteps>();
+                List<Step> steps = new List<Step>();
                 foreach (var item in db.Steps.GetAll())
                 {
-                    steps.Add(new ModeAndSteps(item.Mode, item));
+                    steps.Add(item);
                 }
 
                 LoadDbHandler(steps, EventArgs.Empty);
@@ -64,6 +70,7 @@ namespace BL
         public void OpenFile(object sender, EventArgs e)
         {
             ofd.Open();
+            LoadDb(sender, EventArgs.Empty);
         }
 
         public void UpdateDb(object sender, EventArgs e)

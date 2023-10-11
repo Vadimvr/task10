@@ -20,8 +20,8 @@ namespace View
 
 
             var deleteButtonColumn = new DataGridViewButtonColumn();
-            dataGridView.CellContentClick += CellContentClick;
-            dataGridView.DataError += DataGridViewDataError;
+            StepsDataGridView.CellContentClick += CellContentClick;
+            StepsDataGridView.DataError += DataGridViewDataError;
             this.message = message;
         }
 
@@ -55,7 +55,7 @@ namespace View
             if (Login != null) Login(s, e);
         }
 
-        public DataGridView DataGridView => dataGridView;
+        public DataGridView DataGridView => StepsDataGridView;
 
 
         public string Email => emailTextBox.Text;
