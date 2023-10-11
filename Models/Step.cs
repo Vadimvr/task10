@@ -6,9 +6,8 @@ using System.ComponentModel;
 
 namespace Models
 {
-    public class Step : IEntity<int>
+    public class Step : Entity<int>
     {
-        private int id;
         private Mode mode;
         private int modeID;
         private int timer;
@@ -17,8 +16,8 @@ namespace Models
         private int volume;
         private string destination;
 
-        [ReadOnly(true)]
-        public int ID { get => id; set => id = value; }
+       
+
         [Browsable(false)]
         public Mode Mode { get => mode; set => mode = value; }
         public int ModeID { get => modeID; set => modeID = value; }

@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authorization.cs" />
-    <Compile Include="XlsxConversionToDB.cs" />
+    <Compile Include="XLSXConversionToDB.cs" />
     <Compile Include="OpeFileService.cs" />
     <Compile Include="MainBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

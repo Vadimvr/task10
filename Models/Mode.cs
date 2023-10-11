@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Models
 {
 
-    public class Mode : IEntity<int>
+    public class Mode : Entity<int>
     {
-        private int id;
         private string name;
         private int maxBottleNumber;
         private int maxUsedTips;
 
-        [ReadOnly(true)]
-        public int ID { get => id; set => id = value; }
+        public ICollection<Step> Steps { get; set; }
         public string Name { get => name; set => name = value; }
         public int MaxBottleNumber { get => maxBottleNumber; set => maxBottleNumber = value; }
         public int MaxUsedTips { get => maxUsedTips; set => maxUsedTips = value; }

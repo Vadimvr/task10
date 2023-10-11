@@ -32,7 +32,7 @@ namespace BL
 
         IApplicationDB db;
         private DefaultData defaultData;
-        private XlsxConversionToDB xlsxToDb;
+        private XLSXConversionToDB xlsxToDb;
 
         public event EventHandler LoadDbHandlerModes;
         public event EventHandler LoadDbHandlerSteps;
@@ -46,7 +46,7 @@ namespace BL
             this.defaultData = new DefaultData(this.db);
             this.defaultData.Create();
             this.ofd = new OpeFileService(message);
-            this.xlsxToDb = new XlsxConversionToDB(this.db);
+            this.xlsxToDb = new XLSXConversionToDB(this.db);
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
             this.Authorization = new Authorization(message, this.db);

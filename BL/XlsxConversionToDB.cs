@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    internal class XlsxConversionToDB
+    internal class XLSXConversionToDB
     {
         private IApplicationDB db;
 
-        public XlsxConversionToDB(IApplicationDB db)
+        public XLSXConversionToDB(IApplicationDB db)
         {
             this.db = db;
         }
