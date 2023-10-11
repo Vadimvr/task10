@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1019C938-981E-4AB7-91C4-6C9E70B3DA8C}</ProjectGuid>
+    <ProjectGuid>{712A6F1E-6A04-4F46-8D68-4DC22880CEF7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Presenter</RootNamespace>
-    <AssemblyName>Presenter</AssemblyName>
+    <RootNamespace>BL</RootNamespace>
+    <AssemblyName>BL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,14 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMainWindow.cs" />
-    <Compile Include="MainPresenter.cs" />
+    <Compile Include="Authorization.cs" />
+    <Compile Include="OpeFileService.cs" />
+    <Compile Include="MainBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj">
-      <Project>{712a6f1e-6a04-4f46-8d68-4dc22880cef7}</Project>
-      <Name>BL</Name>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{db993393-b6a1-4333-ac7a-9ceff48b52ac}</Project>
+      <Name>DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageBox\MessageBox.csproj">
       <Project>{a52db39b-2374-4187-8d28-2eaeed1ed632}</Project>
