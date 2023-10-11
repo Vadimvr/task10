@@ -60,11 +60,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitiesDB.cs" />
+    <Compile Include="AppDbContext.cs" />
     <Compile Include="IApplicationDB.cs" />
-    <Compile Include="IEntitiesDB.cs" />
-    <Compile Include="IApplicationDBOld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbSQLite.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MessageBox\MessageBox.csproj">

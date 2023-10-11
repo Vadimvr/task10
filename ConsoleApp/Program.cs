@@ -16,9 +16,9 @@ namespace ConsoleApp
         {
             DB.AppDbContext context = new DB.AppDbContext(@"data source=E:\test.db;");
 
-            IApplicationDB<Step,int> stepsDb = new SQLiteDb<Step, int>(context);
-            IApplicationDB<Mode,int> modesDb = new SQLiteDb<Mode, int>(context);
-            IApplicationDB<Account,int> accountsDb = new SQLiteDb<Account, int>(context);
+            IApplicationDB<Step,int> stepsDb = new DbSQLite<Step, int>(context);
+            IApplicationDB<Mode,int> modesDb = new DbSQLite<Mode, int>(context);
+            IApplicationDB<Account,int> accountsDb = new DbSQLite<Account, int>(context);
 
             foreach (var item in stepsDb.GetAll())
             {

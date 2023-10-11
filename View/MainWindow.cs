@@ -9,6 +9,21 @@ namespace View
     {
         private readonly IMessageService message;
 
+
+        public event EventHandler Login;
+        public event EventHandler Register;
+        public event EventHandler DeleteRowSteps;
+        public event EventHandler DeleteRowModes;
+        public event EventHandler DataGridViewDataErrorHandler;
+        public event EventHandler OpenFile;
+        public event EventHandler UpdateDb;
+
+        public DataGridView StepsDataGrid => StepsDataGridView;
+        public string Email => emailTextBox.Text;
+        public string Password => PasswordTextBox.Text;
+        public string Path => throw new NotImplementedException();
+        public DataGridView ModesDataGrid => ModeDataGridView;
+
         public MainWindow(IMessageService message)
         {
             InitializeComponent();
@@ -59,25 +74,5 @@ namespace View
         {
             if (Login != null) Login(s, e);
         }
-
-        public DataGridView StepsDataGrid => StepsDataGridView;
-
-
-        public string Email => emailTextBox.Text;
-        public string Password => PasswordTextBox.Text;
-        public string Path => throw new NotImplementedException();
-
-        public DataGridView ModesDataGrid => ModeDataGridView;
-
-        public event EventHandler Login;
-        public event EventHandler Register;
-        public event EventHandler loadDb;
-        public event EventHandler DeleteRowSteps;
-        public event EventHandler DeleteRowModes;
-        public event EventHandler CellValidatingHandler;
-        public event EventHandler DataGridViewDataErrorHandler;
-        public event EventHandler OpenFile;
-        public event EventHandler UpdateDb;
-
     }
 }

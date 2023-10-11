@@ -11,21 +11,18 @@ namespace Presenter
 {
     public class MainPresenter
     {
-        IMainWindow view = null;
-        IMainBL bl = null;
-        IMessageService message = null;
-        BindingList<Step> dsSteps;
-        List<Step> stepsOldList;
+        readonly IMainWindow view = null;
+        readonly IMainBL bl = null;
+        readonly IMessageService message = null;
 
-        BindingList<Mode> dsModes;
+        List<Step> stepsOldList;
         List<Mode> modesOldList;
 
-
-
+        BindingList<Step> dsSteps;
+        BindingList<Mode> dsModes;
 
         public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
         {
-
             this.view = view;
             this.message = message;
             this.bl = bl;
@@ -34,7 +31,6 @@ namespace Presenter
             this.view.Register += new EventHandler(Register);
             this.bl.LoadDbHandlerSteps += new EventHandler(LoadDataBaseSteps);
             this.bl.LoadDbHandlerModes += new EventHandler(LoadDataBaseModes);
-            this.bl.DataUpdatedHandler += new EventHandler(UpdeteDataGrid);
 
             this.view.DeleteRowSteps += new EventHandler(RemoveEntitySteps);
             this.view.DeleteRowModes += new EventHandler(RemoveEntityModes);
@@ -51,8 +47,6 @@ namespace Presenter
             if (this.view.ModesDataGrid.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex < dsModes.Count && e.RowIndex >= 0)
             {
                 int temp = e.RowIndex;
-
-
                 int i = -1;
                 if (int.TryParse(temp.ToString(), out i) && i != -1 && i < modesOldList.Count)
                 {
@@ -61,11 +55,6 @@ namespace Presenter
                     bl.RemoveEntityModes(id, e);
                 }
             }
-        }
-
-        private void UpdeteDataGrid(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void DataGridViewDataError(object sender, EventArgs ea)

@@ -80,6 +80,7 @@
             this.emailTextBox.Size = new System.Drawing.Size(156, 20);
             this.emailTextBox.TabIndex = 2;
             this.emailTextBox.Tag = "";
+            this.emailTextBox.Text = "email";
             // 
             // PasswordTextBox
             // 
@@ -88,10 +89,7 @@
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(156, 20);
             this.PasswordTextBox.TabIndex = 3;
-            // 
-            // modeAndStepsBindingSource
-            // 
-        //    this.modeAndStepsBindingSource.DataSource = typeof(Models.ModeAndSteps);
+            this.PasswordTextBox.Text = "password";
             // 
             // stepBindingSource
             // 
@@ -114,7 +112,7 @@
             this.StepsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.StepsDataGridView.Location = new System.Drawing.Point(6, 6);
             this.StepsDataGridView.Name = "StepsDataGridView";
-            this.StepsDataGridView.Size = new System.Drawing.Size(511, 370);
+            this.StepsDataGridView.Size = new System.Drawing.Size(596, 387);
             this.StepsDataGridView.TabIndex = 4;
             // 
             // OpenFileButton

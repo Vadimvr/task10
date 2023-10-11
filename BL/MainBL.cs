@@ -12,15 +12,13 @@ namespace BL
     {
         Authorization Authorization { get; }
 
-
         event EventHandler LoadDbHandlerModes;
         event EventHandler LoadDbHandlerSteps;
-        event EventHandler DataUpdatedHandler;
+     //   event EventHandler DataUpdatedHandler;
         void OpenFile(object sender, EventArgs e);
         void RemoveEntityModes(object sender, EventArgs e);
         void RemoveEntitySteps(object sender, EventArgs e);
         void UpdateDb(object sender, EventArgs e);
-        //void Login(string email, string password);
     }
 
     public class MainBL : IMainBL
@@ -39,18 +37,14 @@ namespace BL
 
         public event EventHandler LoadDbHandlerModes;
         public event EventHandler LoadDbHandlerSteps;
-        public event EventHandler OpenFileHandler;
-        public event EventHandler DataUpdatedHandler;
-
-
 
         public MainBL(IMessageService message, string connectingString = "")
         {
-            DB.AppDbContext context = new DB.AppDbContext(@"data source=E:\test.db;");
+            DB.AppDbContext context = new DB.AppDbContext(@"data source="+connectingString);
 
-            stepsDb = new SQLiteDb<Step, int>(context);
-            modesDb = new SQLiteDb<Mode, int>(context);
-            accountsDb = new SQLiteDb<Account, int>(context);
+            stepsDb = new DbSQLite<Step, int>(context);
+            modesDb = new DbSQLite<Mode, int>(context);
+            accountsDb = new DbSQLite<Account, int>(context);
 
             this.ofd = new OpeFileService(message);
             this.xlsxToDb = new XLSXConversionToDB(modesDb, stepsDb);
@@ -59,12 +53,10 @@ namespace BL
             this.Authorization = new Authorization(message, accountsDb);
             this.Authorization.LoadDbHandler += new EventHandler(LoadDbSteps);
             this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
-
         }
 
         private void LoadDbModes(object sender, EventArgs e)
         {
-
             if (LoadDbHandlerModes != null)
             {
                 List<Mode> steps = new List<Mode>();
@@ -76,7 +68,6 @@ namespace BL
                 LoadDbHandlerModes(steps, EventArgs.Empty);
             }
         }
-
 
         private void LoadDbSteps(object sender, EventArgs e)
         {
@@ -125,54 +116,6 @@ namespace BL
         public void UpdateDb(object sender, EventArgs e)
         {
             throw new NotImplementedException();
-        }
-
-
-    }
-
-    public class DefaultData
-    {
-        private readonly IApplicationDBOld db;
-        Random random;
-        internal DefaultData(IApplicationDBOld db)
-        {
-            this.db = db;
-            this.random = new Random();
-        }
-
-        public void Create()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                db.Accounts.Add(new Account() { Email = $"Email_{i}", Password = "123456" });
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                db.Modes.Add(new Mode() { ID = i, MaxBottleNumber = i * 154, MaxUsedTips = i * 45, Name = $"Name_Mode_{i}" });
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                var mode = db.Modes.Get(random.Next(0, db.Modes.GetAll().Count));
-                db.Steps.Add(new Step()
-                {
-                    ID = i,
-                    ModeID = mode.ID,
-                    Mode = mode,
-                    Speed = i * 487,
-                    Timer = i * 128,
-                    Type = $"type_{i}",
-                    Volume = i * 1200
-                });
-            }
-
-            foreach (var item in db.Accounts.GetAll())
-            {
-                Console.WriteLine($"{item.ID}  {item.Email} {item.Password}");
-            }
-            foreach (var item in db.Steps.GetAll())
-            {
-                Console.WriteLine($"{item.ID}, {db.Modes.Get(item.ModeID).Name}  {item.Type}");
-            }
         }
     }
 }

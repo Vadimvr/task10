@@ -12,6 +12,8 @@ namespace Models
         private int maxUsedTips;
 
         public new int ID { get => base.ID; set { base.ID = value; } }
+        
+        [Browsable(false)]
         public ICollection<Step> Steps { get; set; }
         public string Name { get => name; set => name = value; }
         public int MaxBottleNumber { get => maxBottleNumber; set => maxBottleNumber = value; }

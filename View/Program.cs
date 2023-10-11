@@ -19,7 +19,7 @@ namespace View
             
             MessageService message = new MessageService();
             MainWindow view = new MainWindow(message);
-            MainBL bl = new MainBL(message);
+            MainBL bl = new MainBL(message, @"E:\\test.db");
             MainPresenter mainPresenter = new MainPresenter(view, bl, message);
             
             Application.Run(view);
