@@ -16,16 +16,16 @@ namespace ConsoleApp
         {
             DB.AppDbContext context = new DB.AppDbContext(@"data source=E:\test.db;");
 
-            IApplicationDB2<Step,int> stepsDb = new SQLiteDb<Step, int>(context);
-            IApplicationDB2<Mode,int> modesDb = new SQLiteDb<Mode, int>(context);
-            IApplicationDB2<Account,int> accountsDb = new SQLiteDb<Account, int>(context);
+            IApplicationDB<Step,int> stepsDb = new SQLiteDb<Step, int>(context);
+            IApplicationDB<Mode,int> modesDb = new SQLiteDb<Mode, int>(context);
+            IApplicationDB<Account,int> accountsDb = new SQLiteDb<Account, int>(context);
 
             foreach (var item in stepsDb.GetAll())
             {
                 Console.WriteLine( item);
             }
 
-            accountsDb.Add(new Account() { Email = "email", Password = "pass" });
+            accountsDb.Delete(1);
             Console.ReadKey();
         }
 

@@ -11,9 +11,9 @@ namespace BL
 {
     internal class XLSXConversionToDB
     {
-        private IApplicationDB db;
+        private IApplicationDBOld db;
 
-        public XLSXConversionToDB(IApplicationDB db)
+        public XLSXConversionToDB(IApplicationDBOld db)
         {
             this.db = db;
         }

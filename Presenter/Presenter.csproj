@@ -51,6 +51,10 @@
       <Project>{712a6f1e-6a04-4f46-8d68-4dc22880cef7}</Project>
       <Name>BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{db993393-b6a1-4333-ac7a-9ceff48b52ac}</Project>
+      <Name>DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessageBox\MessageBox.csproj">
       <Project>{a52db39b-2374-4187-8d28-2eaeed1ed632}</Project>
       <Name>MessageBox</Name>

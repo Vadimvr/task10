@@ -61,8 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntitiesDB.cs" />
-    <Compile Include="IEntitiesDB.cs" />
     <Compile Include="IApplicationDB.cs" />
+    <Compile Include="IEntitiesDB.cs" />
+    <Compile Include="IApplicationDBOld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

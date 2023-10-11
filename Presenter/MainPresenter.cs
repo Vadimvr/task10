@@ -1,4 +1,5 @@
 ﻿using BL;
+using DB;
 using Models;
 using Presenter.MessageBox;
 using System;
@@ -19,8 +20,12 @@ namespace Presenter
         BindingList<Mode> dsModes;
         List<Mode> modesOldList;
 
+
+
+
         public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
         {
+
             this.view = view;
             this.message = message;
             this.bl = bl;

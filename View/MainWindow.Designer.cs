@@ -91,7 +91,7 @@
             // 
             // modeAndStepsBindingSource
             // 
-            this.modeAndStepsBindingSource.DataSource = typeof(Models.ModeAndSteps);
+        //    this.modeAndStepsBindingSource.DataSource = typeof(Models.ModeAndSteps);
             // 
             // stepBindingSource
             // 

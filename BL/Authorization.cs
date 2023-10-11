@@ -9,21 +9,22 @@ namespace BL
     public class Authorization
     {
         private IMessageService message;
-        private IApplicationDB db;
+        private readonly IApplicationDB<Account, int> accountsDb;
+      
         public event EventHandler LoadDbHandler;
-        public Authorization(IMessageService message, IApplicationDB db)
+
+        public Authorization(IMessageService message,IApplicationDB<Account, int> accountsDb)
         {
             this.message = message;
-            this.db = db;
+            this.accountsDb = accountsDb;
         }
 
         public void Register(string email, string password)
         {
-            var acc = db.Accounts.GetAll().FirstOrDefault(i => i.Email == email);
+            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email);
             if (acc == null)
             {
-                db.Accounts.Add(new Account() { Email = email, Password = password });
-        //        message.Show($"hello {email}");
+                accountsDb.Add(new Account() { Email = email, Password = password });
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
             else
@@ -34,11 +35,10 @@ namespace BL
 
         public void Login(string email, string password)
         {
-            var acc = db.Accounts.GetAll().FirstOrDefault(i => i.Email == email && i.Password == password);
+            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email && i.Password == password);
 
             if (acc != null)
             {
-              //  message.Show($"hello {acc.Email}");
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
             else message.Show("Account not found");

@@ -30,17 +30,31 @@ namespace BL
         public Authorization Authorization { get; private set; }
 
 
-        IApplicationDB db;
+        IApplicationDBOld db;
         private DefaultData defaultData;
         private XLSXConversionToDB xlsxToDb;
+        
+        private IApplicationDB<Step, int> stepsDb;
+        private IApplicationDB<Mode, int> modesDb;
+        private IApplicationDB<Account, int> accountsDb;
 
         public event EventHandler LoadDbHandlerModes;
         public event EventHandler LoadDbHandlerSteps;
         public event EventHandler OpenFileHandler;
         public event EventHandler DataUpdatedHandler;
 
-        public MainBL(IMessageService message)
+
+
+        public MainBL(IMessageService message, string connectingString = "")
         {
+            DB.AppDbContext context = new DB.AppDbContext(@"data source=E:\test.db;");
+
+            stepsDb = new SQLiteDb<Step, int>(context);
+            modesDb = new SQLiteDb<Mode, int>(context);
+            accountsDb = new SQLiteDb<Account, int>(context);
+
+
+
             this.db = new MemoryDB();
 
             this.defaultData = new DefaultData(this.db);
@@ -49,7 +63,7 @@ namespace BL
             this.xlsxToDb = new XLSXConversionToDB(this.db);
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
-            this.Authorization = new Authorization(message, this.db);
+            this.Authorization = new Authorization(message, accountsDb);
             this.Authorization.LoadDbHandler += new EventHandler(LoadDbSteps);
             this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
 
@@ -125,9 +139,9 @@ namespace BL
 
     public class DefaultData
     {
-        private readonly IApplicationDB db;
+        private readonly IApplicationDBOld db;
         Random random;
-        internal DefaultData(IApplicationDB db)
+        internal DefaultData(IApplicationDBOld db)
         {
             this.db = db;
             this.random = new Random();
