@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BL;
+using Presenter;
+using Presenter.MessageBox;
+using System;
 using System.Windows.Forms;
 
 namespace View
@@ -16,7 +16,13 @@ namespace View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            
+            MessageService message = new MessageService();
+            MainWindow view = new MainWindow(message);
+            MainBL bl = new MainBL(message);
+            MainPresenter mainPresenter = new MainPresenter(view, bl, message);
+            
+            Application.Run(view);
         }
     }
 }
