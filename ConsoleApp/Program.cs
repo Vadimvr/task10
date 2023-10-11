@@ -1,7 +1,10 @@
 ﻿
+using ClosedXML.Excel;
 using DB;
 using Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp
 {
@@ -10,39 +13,29 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            Random random = new Random();
-            MemoryDB db = new MemoryDB();
-            for (int i = 0; i < 10; i++)
+            string fileName = "E:\\DataExample.xlsx";
+            var workbook = new XLWorkbook(fileName);
+            var ws1 = workbook.Worksheet(1);
+            var ws2 = workbook.Worksheet(2);
+
+
+            List<Mode> modeList = new List<Mode>();
+            List<Step> stepsList = new List<Step>();
+            for (int j = 2; j < ws1.Rows().Count(); j++)
             {
-                db.Accounts.Add(new Account() { Email = $"Email_{i}", Password = "123456" });
+                modeList.Add(Mode.ConvertToMode(ws1.Row(j)));
+                Console.WriteLine(modeList[modeList.Count - 1]);
             }
-            for (int i = 0; i < 10; i++)
+            for (int j = 2; j < ws2.Rows().Count(); j++)
             {
-                db.Modes.Add(new Mode() { ID = i, MaxBottleNumber = i * 154, MaxUsedTips = i * 45, Name = $"Name_Mode_{i}" });
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                var mode = db.Modes.Get(random.Next(0, db.Modes.GetAll().Count));
-                db.Steps.Add(new Step()
-                {
-                    ID = i,
-                    ModeID = mode.ID,
-                    Mode = mode,
-                    Speed = i * 487,
-                    Timer = i * 128,
-                    Type = $"type_{i}",
-                    Volume = i * 1200
-                });
+                var step = Step.ConvertToMode(ws2.Row(j));
+                stepsList.Add(step);
+                var mode = modeList.FirstOrDefault(m => m.ID == step.ModeID);
+                if (mode == null) throw new ArgumentNullException("mode is null");
+                step.Mode = mode;
+                Console.WriteLine(step);
             }
 
-            foreach (var item in db.Accounts.GetAll())
-            {
-                Console.WriteLine($"{item.ID}  {item.Email} {item.Password}");
-            }
-            foreach (var item in db.Steps.GetAll())
-            {
-                Console.WriteLine($"{item.ID}, {db.Modes.Get(item.ModeID).Name}  {item.Type}");
-            }
 
             Console.ReadKey();
         }
