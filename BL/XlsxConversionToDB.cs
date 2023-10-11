@@ -53,7 +53,7 @@ namespace BL
 
             foreach (var item in stepsList)
             {
-                item.ModeID = item.ID;
+                item.ModeID = item.Mode.ID;
                 db.Steps.Add(item);
             }
         }

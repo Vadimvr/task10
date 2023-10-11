@@ -20,9 +20,15 @@ namespace View
 
 
             var deleteButtonColumn = new DataGridViewButtonColumn();
-            StepsDataGridView.CellContentClick += CellContentClick;
+            StepsDataGridView.CellContentClick += StepsCellContentClick;
+            ModeDataGridView.CellContentClick += ModesCellContentClick;
             StepsDataGridView.DataError += DataGridViewDataError;
             this.message = message;
+        }
+
+        private void ModesCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (DeleteRowModes != null) DeleteRowModes(sender, e);
         }
 
         private void UpdateDbClick(object sender, EventArgs e)
@@ -35,9 +41,9 @@ namespace View
             if(OpenFile !=null) { OpenFile(sender, e); }
         }
 
-        private void CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void StepsCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (DeleteRow != null) DeleteRow(sender, e);
+            if (DeleteRowSteps != null) DeleteRowSteps(sender, e);
         }
 
         private void DataGridViewDataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -55,16 +61,20 @@ namespace View
             if (Login != null) Login(s, e);
         }
 
-        public DataGridView DataGridView => StepsDataGridView;
+        public DataGridView StepsDataGrid => StepsDataGridView;
 
 
         public string Email => emailTextBox.Text;
         public string Password => PasswordTextBox.Text;
         public string Path => throw new NotImplementedException();
+
+        public DataGridView ModesDataGrid => ModeDataGridView;
+
         public event EventHandler Login;
         public event EventHandler Register;
         public event EventHandler loadDb;
-        public event EventHandler DeleteRow;
+        public event EventHandler DeleteRowSteps;
+        public event EventHandler DeleteRowModes;
         public event EventHandler CellValidatingHandler;
         public event EventHandler DataGridViewDataErrorHandler;
         public event EventHandler OpenFile;

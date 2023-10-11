@@ -8,12 +8,14 @@ namespace Presenter
         string Email { get; }
         string Password { get; }
         string Path { get; }
-        DataGridView DataGridView { get; }
+        DataGridView StepsDataGrid { get; }
+        DataGridView ModesDataGrid { get; }
 
         event EventHandler Login;
         event EventHandler Register;
         event EventHandler loadDb;
-        event EventHandler DeleteRow;
+        event EventHandler DeleteRowSteps;
+        event EventHandler DeleteRowModes;
         event EventHandler CellValidatingHandler;
         event EventHandler DataGridViewDataErrorHandler;
         event EventHandler OpenFile;

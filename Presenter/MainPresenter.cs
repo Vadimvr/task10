@@ -14,7 +14,11 @@ namespace Presenter
         IMainBL bl = null;
         IMessageService message = null;
         BindingList<Step> dsSteps;
-        List<Step> oldList;
+        List<Step> stepsOldList;
+
+        BindingList<Mode> dsModes;
+        List<Mode> modesOldList;
+
         public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
         {
             this.view = view;
@@ -23,15 +27,35 @@ namespace Presenter
 
             this.view.Login += new EventHandler(Login);
             this.view.Register += new EventHandler(Register);
-            this.bl.LoadDbHandler += new EventHandler(LoadDataBase);
+            this.bl.LoadDbHandlerSteps += new EventHandler(LoadDataBaseSteps);
+            this.bl.LoadDbHandlerModes += new EventHandler(LoadDataBaseModes);
             this.bl.DataUpdatedHandler += new EventHandler(UpdeteDataGrid);
 
-            this.view.DeleteRow += new EventHandler(RemoveEntity);
+            this.view.DeleteRowSteps += new EventHandler(RemoveEntitySteps);
+            this.view.DeleteRowModes += new EventHandler(RemoveEntityModes);
 
             this.view.UpdateDb += bl.UpdateDb;
             this.view.OpenFile += bl.OpenFile;
 
             this.view.DataGridViewDataErrorHandler += new EventHandler(DataGridViewDataError);
+        }
+
+        private void RemoveEntityModes(object sender, EventArgs args)
+        {
+            var e = (DataGridViewCellEventArgs)args;
+            if (this.view.ModesDataGrid.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex < dsModes.Count && e.RowIndex >= 0)
+            {
+                int temp = e.RowIndex;
+
+
+                int i = -1;
+                if (int.TryParse(temp.ToString(), out i) && i != -1 && i < modesOldList.Count)
+                {
+                    var id = dsModes[i].ID;
+                    dsModes.RemoveAt(i);
+                    bl.RemoveEntityModes(id, e);
+                }
+            }
         }
 
         private void UpdeteDataGrid(object sender, EventArgs e)
@@ -53,44 +77,71 @@ namespace Presenter
             }
         }
 
-        private void RemoveEntity(object sender, EventArgs arg)
+        private void RemoveEntitySteps(object sender, EventArgs arg)
         {
 
             var e = (DataGridViewCellEventArgs)arg;
-            if (this.view.DataGridView.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex >= 0)
+            if (this.view.StepsDataGrid.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex < dsModes.Count && e.RowIndex >= 0)
             {
                 int temp = e.RowIndex;
 
 
                 int i = -1;
-                if (int.TryParse(temp.ToString(), out i) && i != -1 && i < oldList.Count)
+                if (int.TryParse(temp.ToString(), out i) && i != -1 && i < stepsOldList.Count)
                 {
                     var id = dsSteps[i].ID;
                     dsSteps.RemoveAt(i);
-                    bl.RemoveEntity(id, e);
+                    bl.RemoveEntitySteps(id, e);
                 }
             }
         }
 
-        private void LoadDataBase(object sender, EventArgs e)
+        private void LoadDataBaseModes(object sender, EventArgs e)
         {
-            if (sender is List<Step>)
+            if (sender is List<Mode>)
             {
-                oldList = (List<Step>)sender;
-                if (dsSteps == null)
+                modesOldList = (List<Mode>)sender;
+                if (dsModes == null)
                 {
-                    dsSteps = new BindingList<Step>();
-                    this.view.DataGridView.DataSource = dsSteps;
+                    dsModes = new BindingList<Mode>();
+                    this.view.ModesDataGrid.DataSource = dsModes;
                     var deleteButtonColumn = new DataGridViewButtonColumn();
                     deleteButtonColumn.Text = "Delete";
                     deleteButtonColumn.UseColumnTextForButtonValue = true;
                     deleteButtonColumn.HeaderText = "Delete";
-                    this.view.DataGridView.Columns.Add(deleteButtonColumn);
+                    this.view.ModesDataGrid.Columns.Add(deleteButtonColumn);
+                }
+                else
+                    dsModes.Clear();
+
+                foreach (var item in modesOldList)
+                {
+                    dsModes.Add(item);
+                }
+
+            }
+        }
+
+
+        private void LoadDataBaseSteps(object sender, EventArgs e)
+        {
+            if (sender is List<Step>)
+            {
+                stepsOldList = (List<Step>)sender;
+                if (dsSteps == null)
+                {
+                    dsSteps = new BindingList<Step>();
+                    this.view.StepsDataGrid.DataSource = dsSteps;
+                    var deleteButtonColumn = new DataGridViewButtonColumn();
+                    deleteButtonColumn.Text = "Delete";
+                    deleteButtonColumn.UseColumnTextForButtonValue = true;
+                    deleteButtonColumn.HeaderText = "Delete";
+                    this.view.StepsDataGrid.Columns.Add(deleteButtonColumn);
                 }
                 else
                     dsSteps.Clear();
 
-                foreach (var item in oldList)
+                foreach (var item in stepsOldList)
                 {
                     dsSteps.Add(item);
                 }

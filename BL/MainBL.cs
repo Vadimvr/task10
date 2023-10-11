@@ -3,6 +3,8 @@ using Models;
 using Presenter.MessageBox;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace BL
 {
@@ -10,10 +12,13 @@ namespace BL
     {
         Authorization Authorization { get; }
 
-        event EventHandler LoadDbHandler;
+
+        event EventHandler LoadDbHandlerModes;
+        event EventHandler LoadDbHandlerSteps;
         event EventHandler DataUpdatedHandler;
         void OpenFile(object sender, EventArgs e);
-        void RemoveEntity(object sender, EventArgs e);
+        void RemoveEntityModes(object sender, EventArgs e);
+        void RemoveEntitySteps(object sender, EventArgs e);
         void UpdateDb(object sender, EventArgs e);
         //void Login(string email, string password);
     }
@@ -23,12 +28,14 @@ namespace BL
         private OpeFileService ofd;
         IMessageService messageService;
         public Authorization Authorization { get; private set; }
+
+
         IApplicationDB db;
         private DefaultData defaultData;
         private XlsxConversionToDB xlsxToDb;
 
-
-        public event EventHandler LoadDbHandler;
+        public event EventHandler LoadDbHandlerModes;
+        public event EventHandler LoadDbHandlerSteps;
         public event EventHandler OpenFileHandler;
         public event EventHandler DataUpdatedHandler;
 
@@ -43,13 +50,30 @@ namespace BL
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
             this.Authorization = new Authorization(message, this.db);
-            this.Authorization.LoadDbHandler += new EventHandler(LoadDb);
+            this.Authorization.LoadDbHandler += new EventHandler(LoadDbSteps);
+            this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
 
         }
 
-        private void LoadDb(object sender, EventArgs e)
+        private void LoadDbModes(object sender, EventArgs e)
         {
-            if (LoadDbHandler != null)
+
+            if (LoadDbHandlerModes != null)
+            {
+                List<Mode> steps = new List<Mode>();
+                foreach (var item in db.Modes.GetAll())
+                {
+                    steps.Add(item);
+                }
+
+                LoadDbHandlerModes(steps, EventArgs.Empty);
+            }
+        }
+
+
+        private void LoadDbSteps(object sender, EventArgs e)
+        {
+            if (LoadDbHandlerSteps != null)
             {
                 List<Step> steps = new List<Step>();
                 foreach (var item in db.Steps.GetAll())
@@ -57,26 +81,46 @@ namespace BL
                     steps.Add(item);
                 }
 
-                LoadDbHandler(steps, EventArgs.Empty);
+                LoadDbHandlerSteps(steps, EventArgs.Empty);
             }
         }
 
-        public void RemoveEntity(object sender, EventArgs e)
+        public void RemoveEntitySteps(object sender, EventArgs e)
         {
-            var x = (int)sender;
-            db.Steps.Delete(x);
+            var id = (int)sender;
+            RemoveEntitySteps(id, e);
+        }
+        public void RemoveEntitySteps(int sender, EventArgs e)
+        {
+            var id = (int)sender;
+            db.Steps.Delete(id);
+        }
+        public void RemoveEntityModes(object sender, EventArgs e)
+        {
+            var id = (int)sender;
+            db.Modes.Delete(id);
+
+            var steps = db.Steps.GetAll().Where(s => s.ModeID == id).ToList();
+            foreach (var step in steps)
+            {
+                RemoveEntitySteps(step.ID, e);
+            }
+            LoadDbSteps(sender, EventArgs.Empty);
         }
 
         public void OpenFile(object sender, EventArgs e)
         {
             ofd.Open();
-            LoadDb(sender, EventArgs.Empty);
+            LoadDbSteps(sender, EventArgs.Empty);
+            LoadDbModes(sender, EventArgs.Empty);
         }
 
         public void UpdateDb(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }
+
+
     }
 
     public class DefaultData

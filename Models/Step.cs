@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Presentation;
 using System;
+using System.ComponentModel;
 
 namespace Models
 {
@@ -16,7 +17,9 @@ namespace Models
         private int volume;
         private string destination;
 
+        [ReadOnly(true)]
         public int ID { get => id; set => id = value; }
+        [Browsable(false)]
         public Mode Mode { get => mode; set => mode = value; }
         public int ModeID { get => modeID; set => modeID = value; }
         public int Timer { get => timer; set => timer = value; }

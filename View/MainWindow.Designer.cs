@@ -40,11 +40,19 @@
             this.StepsDataGridView = new System.Windows.Forms.DataGridView();
             this.OpenFileButton = new System.Windows.Forms.Button();
             this.UpdateDbButton = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ModeDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.modeAndStepsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.modeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ModeDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // loginButton
@@ -99,13 +107,14 @@
             // 
             // StepsDataGridView
             // 
+            this.StepsDataGridView.AllowUserToAddRows = false;
             this.StepsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.StepsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.StepsDataGridView.Location = new System.Drawing.Point(174, 12);
+            this.StepsDataGridView.Location = new System.Drawing.Point(6, 6);
             this.StepsDataGridView.Name = "StepsDataGridView";
-            this.StepsDataGridView.Size = new System.Drawing.Size(614, 400);
+            this.StepsDataGridView.Size = new System.Drawing.Size(511, 370);
             this.StepsDataGridView.TabIndex = 4;
             // 
             // OpenFileButton
@@ -126,14 +135,61 @@
             this.UpdateDbButton.Text = "Update DB";
             this.UpdateDbButton.UseVisualStyleBackColor = true;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(174, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(614, 426);
+            this.tabControl1.TabIndex = 7;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.StepsDataGridView);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(606, 400);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.ModeDataGridView);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(606, 400);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // ModeDataGridView
+            // 
+            this.ModeDataGridView.AllowUserToAddRows = false;
+            this.ModeDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ModeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ModeDataGridView.Location = new System.Drawing.Point(4, 7);
+            this.ModeDataGridView.Name = "ModeDataGridView";
+            this.ModeDataGridView.Size = new System.Drawing.Size(596, 387);
+            this.ModeDataGridView.TabIndex = 0;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.UpdateDbButton);
             this.Controls.Add(this.OpenFileButton);
-            this.Controls.Add(this.StepsDataGridView);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.emailTextBox);
             this.Controls.Add(this.RegisterButton);
@@ -145,6 +201,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.modeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ModeDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,6 +223,10 @@
         private System.Windows.Forms.DataGridView StepsDataGridView;
         private System.Windows.Forms.Button OpenFileButton;
         private System.Windows.Forms.Button UpdateDbButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView ModeDataGridView;
     }
 }
 

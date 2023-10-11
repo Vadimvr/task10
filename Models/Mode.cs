@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Models
 {
@@ -10,6 +11,7 @@ namespace Models
         private int maxBottleNumber;
         private int maxUsedTips;
 
+        [ReadOnly(true)]
         public int ID { get => id; set => id = value; }
         public string Name { get => name; set => name = value; }
         public int MaxBottleNumber { get => maxBottleNumber; set => maxBottleNumber = value; }
