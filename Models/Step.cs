@@ -16,8 +16,7 @@ namespace Models
         private int volume;
         private string destination;
 
-       
-
+        public new int ID { get => base.ID; set { base.ID = value; } }
         [Browsable(false)]
         public Mode Mode { get => mode; set => mode = value; }
         public int ModeID { get => modeID; set => modeID = value; }

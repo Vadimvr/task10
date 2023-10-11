@@ -8,7 +8,6 @@ namespace View
     public partial class MainWindow : Form, IMainWindow
     {
         private readonly IMessageService message;
-        private IMessageService path;
 
         public MainWindow(IMessageService message)
         {

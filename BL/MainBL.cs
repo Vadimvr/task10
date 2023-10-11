@@ -30,8 +30,7 @@ namespace BL
         public Authorization Authorization { get; private set; }
 
 
-        IApplicationDBOld db;
-        private DefaultData defaultData;
+       
         private XLSXConversionToDB xlsxToDb;
         
         private IApplicationDB<Step, int> stepsDb;
@@ -53,14 +52,8 @@ namespace BL
             modesDb = new SQLiteDb<Mode, int>(context);
             accountsDb = new SQLiteDb<Account, int>(context);
 
-
-
-            this.db = new MemoryDB();
-
-            this.defaultData = new DefaultData(this.db);
-            this.defaultData.Create();
             this.ofd = new OpeFileService(message);
-            this.xlsxToDb = new XLSXConversionToDB(this.db);
+            this.xlsxToDb = new XLSXConversionToDB(modesDb, stepsDb);
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
             this.Authorization = new Authorization(message, accountsDb);
@@ -75,7 +68,7 @@ namespace BL
             if (LoadDbHandlerModes != null)
             {
                 List<Mode> steps = new List<Mode>();
-                foreach (var item in db.Modes.GetAll())
+                foreach (var item in modesDb.GetAll())
                 {
                     steps.Add(item);
                 }
@@ -90,7 +83,7 @@ namespace BL
             if (LoadDbHandlerSteps != null)
             {
                 List<Step> steps = new List<Step>();
-                foreach (var item in db.Steps.GetAll())
+                foreach (var item in stepsDb.GetAll())
                 {
                     steps.Add(item);
                 }
@@ -107,14 +100,14 @@ namespace BL
         public void RemoveEntitySteps(int sender, EventArgs e)
         {
             var id = (int)sender;
-            db.Steps.Delete(id);
+            stepsDb.Delete(id);
         }
         public void RemoveEntityModes(object sender, EventArgs e)
         {
             var id = (int)sender;
-            db.Modes.Delete(id);
+            modesDb.Delete(id);
 
-            var steps = db.Steps.GetAll().Where(s => s.ModeID == id).ToList();
+            var steps = stepsDb.GetAll().Where(s => s.ModeID == id).ToList();
             foreach (var step in steps)
             {
                 RemoveEntitySteps(step.ID, e);
