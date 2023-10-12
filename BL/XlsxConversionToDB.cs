@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
 using DB;
-using DocumentFormat.OpenXml.Office2010.Ink;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -17,8 +16,6 @@ namespace BL
         {
             this.context = context;
         }
-
-       
 
         internal void FileISOpen(object sender, EventArgs e)
         {

@@ -25,9 +25,8 @@ namespace View
         public string Password => PasswordTextBox.Text;
         public string Path => throw new NotImplementedException();
         public DataGridView ModesDataGrid => ModeDataGridView;
-        IEditorWindow stepsEditor;
 
-        public MainWindow(IMessageService message, IEditorWindow stepsEditor)
+        public MainWindow(IMessageService message)
         {
             InitializeComponent();
             loginButton.Click += new EventHandler(loginButtonClick);
@@ -47,13 +46,6 @@ namespace View
             StepsDataGridView.DataError += DataGridViewDataError;
             Unregister += SingOut;
             this.message = message;
-            this.stepsEditor = stepsEditor;
-        }
-
-        // удалить
-        private void OpenEditBoxClick(object sender, EventArgs e)
-        {
-            stepsEditor.Visible = !stepsEditor.Visible;
         }
 
         System.Drawing.Point x;
@@ -117,6 +109,5 @@ namespace View
         {
             if (Login != null) Login(s, e);
         }
-
     }
 }

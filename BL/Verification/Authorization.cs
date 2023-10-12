@@ -35,6 +35,7 @@ namespace BL
             {
                 password = PasswordED.HashPassword(password);
                 context.Accounts.Add(new Account() { Email = email, Password = password });
+                context.SaveChanges();
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
             else

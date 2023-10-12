@@ -3,29 +3,10 @@ using Models;
 using Presenter.MessageBox;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace BL
 {
-    public interface IMainBL
-    {
-        Authorization Authorization { get; }
-
-        event EventHandler LoadDbHandlerModes;
-        event EventHandler LoadDbHandlerSteps;
-
-        event EventHandler SingInHandler;
-        event EventHandler StepSaveHandler;
-        //   event EventHandler DataUpdatedHandler;
-        void OpenFile(object sender, EventArgs e);
-        void RemoveEntityModes(object sender, EventArgs e);
-        void RemoveEntitySteps(object sender, EventArgs e);
-        void StepSave(object sender, EventArgs e);
-        void UpdateDb(object sender, EventArgs e);
-    }
 
     public class MainBL : IMainBL
     {

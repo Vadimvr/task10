@@ -40,6 +40,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.AddNewStepButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.AddNewModeButton = new System.Windows.Forms.Button();
             this.ModeDataGridView = new System.Windows.Forms.DataGridView();
             this.UnregisterButton = new System.Windows.Forms.Button();
             this.labelEmail = new System.Windows.Forms.Label();
@@ -48,7 +49,6 @@
             this.stepBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.modeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.stepBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.AddNewModeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -99,13 +99,15 @@
             // StepsDataGridView
             // 
             this.StepsDataGridView.AllowUserToAddRows = false;
+            this.StepsDataGridView.AllowUserToDeleteRows = false;
             this.StepsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.StepsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.StepsDataGridView.Location = new System.Drawing.Point(6, 6);
             this.StepsDataGridView.Name = "StepsDataGridView";
-            this.StepsDataGridView.Size = new System.Drawing.Size(724, 397);
+            this.StepsDataGridView.ReadOnly = true;
+            this.StepsDataGridView.Size = new System.Drawing.Size(970, 397);
             this.StepsDataGridView.TabIndex = 4;
             // 
             // OpenFileButton
@@ -139,7 +141,7 @@
             this.MainTabControl.Location = new System.Drawing.Point(6, 75);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(742, 465);
+            this.MainTabControl.Size = new System.Drawing.Size(988, 465);
             this.MainTabControl.TabIndex = 7;
             this.MainTabControl.Visible = false;
             // 
@@ -150,7 +152,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(734, 432);
+            this.tabPage1.Size = new System.Drawing.Size(980, 439);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Steps";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -158,7 +160,7 @@
             // AddNewStepButton
             // 
             this.AddNewStepButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddNewStepButton.Location = new System.Drawing.Point(653, 406);
+            this.AddNewStepButton.Location = new System.Drawing.Point(899, 406);
             this.AddNewStepButton.Name = "AddNewStepButton";
             this.AddNewStepButton.Size = new System.Drawing.Size(75, 23);
             this.AddNewStepButton.TabIndex = 5;
@@ -177,15 +179,27 @@
             this.tabPage2.Text = "Modes";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // AddNewModeButton
+            // 
+            this.AddNewModeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddNewModeButton.Location = new System.Drawing.Point(653, 413);
+            this.AddNewModeButton.Name = "AddNewModeButton";
+            this.AddNewModeButton.Size = new System.Drawing.Size(75, 23);
+            this.AddNewModeButton.TabIndex = 1;
+            this.AddNewModeButton.Text = "AddNew";
+            this.AddNewModeButton.UseVisualStyleBackColor = true;
+            // 
             // ModeDataGridView
             // 
             this.ModeDataGridView.AllowUserToAddRows = false;
+            this.ModeDataGridView.AllowUserToDeleteRows = false;
             this.ModeDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ModeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ModeDataGridView.Location = new System.Drawing.Point(4, 7);
             this.ModeDataGridView.Name = "ModeDataGridView";
+            this.ModeDataGridView.ReadOnly = true;
             this.ModeDataGridView.Size = new System.Drawing.Size(724, 400);
             this.ModeDataGridView.TabIndex = 0;
             // 
@@ -229,21 +243,11 @@
             // 
             this.stepBindingSource1.DataSource = typeof(Models.Step);
             // 
-            // AddNewModeButton
-            // 
-            this.AddNewModeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddNewModeButton.Location = new System.Drawing.Point(653, 413);
-            this.AddNewModeButton.Name = "AddNewModeButton";
-            this.AddNewModeButton.Size = new System.Drawing.Size(75, 23);
-            this.AddNewModeButton.TabIndex = 1;
-            this.AddNewModeButton.Text = "AddNew";
-            this.AddNewModeButton.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(760, 544);
+            this.ClientSize = new System.Drawing.Size(1006, 544);
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelEmail);
             this.Controls.Add(this.UnregisterButton);
@@ -255,7 +259,6 @@
             this.Controls.Add(this.RegisterButton);
             this.Controls.Add(this.loginButton);
             this.Name = "MainWindow";
-            this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.StepsDataGridView)).EndInit();
             this.MainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

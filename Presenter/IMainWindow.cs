@@ -29,12 +29,4 @@ namespace Presenter
         void SingIn(object sender, EventArgs e);
         void SingOut(object sender, EventArgs e);
     }
-
-    public interface IEditorWindow
-    {
-        bool Visible { get; set; }
-        event EventHandler SaveEntity;
-        void ShowEditorWindow(object sender, EventArgs e);
-
-    }
 }

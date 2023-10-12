@@ -14,8 +14,8 @@ namespace View
         [STAThread]
         static void Main()
         {
-            string path = "e:\\";
-            string name = "MyDatabase12.sqlite";
+            string path = "";
+            string name = "MyDatabase.sqlite";
             string fullPath = path + name;
 
             Application.EnableVisualStyles();
@@ -24,7 +24,7 @@ namespace View
             MessageService message = new MessageService();
             StepsEditor stepsEditor = new StepsEditor(message);
             ModeEditor modeEditor = new ModeEditor(message);
-            MainWindow view = new MainWindow(message, stepsEditor);
+            MainWindow view = new MainWindow(message);
             MainBL bl = new MainBL(message, fullPath);
             MainPresenter mainPresenter = new MainPresenter(view, stepsEditor, modeEditor, bl, message);
 
