@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using DB;
+using DocumentFormat.OpenXml.Office2010.Ink;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,15 @@ namespace BL
 {
     internal class XLSXConversionToDB
     {
-        private IApplicationDB<Mode, int> modesDb;
-        private IApplicationDB<Step, int> stepsDb;
+        
+        private IAppDbContext context;
 
-        public XLSXConversionToDB(IApplicationDB<Mode, int> modesDb, IApplicationDB<Step, int> stepsDb)
+        public XLSXConversionToDB(IAppDbContext context)
         {
-            this.modesDb = modesDb;
-            this.stepsDb = stepsDb;
+            this.context = context;
         }
+
+       
 
         internal void FileISOpen(object sender, EventArgs e)
         {
@@ -51,18 +53,20 @@ namespace BL
             for (int i = 0; i < modeList.Count; i++)
             {
                 Mode mode = modeList[i];
-                if (modesDb.GetAll().FirstOrDefault(m => m.Name.Equals(mode.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                if (context.Modes.FirstOrDefault(m => m.Name.Equals(mode.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                 {
-                    modesDb.Add(mode);
+                    context.Modes.Add(mode);
+                    context.SaveChanges();
                 }
             }
 
             foreach (var item in stepsList)
             {
-                item.ModeID = modesDb.GetAll().FirstOrDefault(m => m.Name.Equals(item.Mode.Name, StringComparison.CurrentCultureIgnoreCase)).ID;
+                item.ModeID = context.Modes.FirstOrDefault(m => m.Name.Equals(item.Mode.Name, StringComparison.CurrentCultureIgnoreCase)).ID;
                 item.Mode = null;
-                stepsDb.Add(item);
+                context.Steps.Add(item);
             }
+            context.SaveChanges();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Models
@@ -51,5 +52,12 @@ namespace Models
 
             return step;
         }
+    }
+
+    
+    public class StepDTO 
+    {
+        public List<int> Modes { get; set; }
+        public Step Step { get; set; }
     }
 }

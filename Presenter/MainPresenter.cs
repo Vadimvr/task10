@@ -4,6 +4,8 @@ using Presenter.MessageBox;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Presenter
@@ -11,11 +13,14 @@ namespace Presenter
     public class MainPresenter
     {
         readonly IMainWindow view = null;
+        private readonly IEditorWindow stepsEditor;
         readonly IMainBL bl = null;
         readonly IMessageService message = null;
 
-        public event EventHandler SingInHandler;
-        public event EventHandler SingOutHandler;
+        //public event EventHandler SingInHandler;
+        //public event EventHandler SingOutHandler;
+        public event EventHandler ShowEditorStepWindow;
+        public event EventHandler ShowEditorModeWindow;
 
         List<Step> stepsOldList;
         List<Mode> modesOldList;
@@ -23,17 +28,23 @@ namespace Presenter
         BindingList<Step> dsSteps;
         BindingList<Mode> dsModes;
 
-        public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
+        public MainPresenter(IMainWindow view, IEditorWindow stepEditor, IEditorWindow modeEditor, IMainBL bl, IMessageService message)
         {
             this.view = view;
+            this.stepsEditor = stepEditor;
+            //SingInHandler += this.view.SingIn;
+            //SingOutHandler += this.view.SingOut;
 
-            SingInHandler += this.view.SingIn;
-            SingOutHandler += this.view.SingOut;
+            ShowEditorStepWindow += stepEditor.ShowEditorWindow;
+            stepEditor.SaveEntity += bl.StepSave;
 
-            this.message = message; 
+            ShowEditorModeWindow += modeEditor.ShowEditorWindow;
+            modeEditor.SaveEntity += bl.StepSave;
+
+            this.message = message;
             this.bl = bl;
             this.bl.SingInHandler += this.view.SingIn;
-            
+
             this.view.Unregister += ClearAllDataGrid;
 
             this.view.Login += new EventHandler(Login);
@@ -43,13 +54,25 @@ namespace Presenter
             this.bl.LoadDbHandlerModes += new EventHandler(LoadDataBaseModes);
             this.view.DeleteRowSteps += new EventHandler(RemoveEntitySteps);
             this.view.DeleteRowModes += new EventHandler(RemoveEntityModes);
-
+            this.view.AddStepHandler += AddNewStep;
+            this.view.AddModeHandler += AddNewMode;
             this.view.UpdateDb += bl.UpdateDb;
             this.view.OpenFile += bl.OpenFile;
 
             this.view.DataGridViewDataErrorHandler += new EventHandler(DataGridViewDataError);
         }
 
+        private void AddNewMode(object sender, EventArgs e)
+        {
+            ModeDTO modeDto = new ModeDTO() { Mode = new Mode(), Names = dsModes.Select(x => x.Name).ToList() };
+            ShowEditorModeWindow?.Invoke(modeDto, e);
+        }
+
+        private void AddNewStep(object sender, EventArgs e)
+        {
+            StepDTO modeDto = new StepDTO() { Step = new Step(), Modes = dsModes.Select(x => x.ID).ToList() };
+            ShowEditorStepWindow?.Invoke(modeDto, e);
+        }
 
         private void RemoveEntityModes(object sender, EventArgs args)
         {
@@ -63,6 +86,21 @@ namespace Presenter
                     var id = dsModes[i].ID;
                     dsModes.RemoveAt(i);
                     bl.RemoveEntityModes(id, e);
+                }
+            }
+            if (this.view.ModesDataGrid.Columns[e.ColumnIndex].HeaderText == "Edit" && e.RowIndex < dsModes.Count && e.RowIndex >= 0)
+            {
+                if (stepsEditor == null)
+                {
+
+                }
+                int temp = e.RowIndex;
+
+                int i = -1;
+                if (int.TryParse(temp.ToString(), out i) && i != -1 && i < stepsOldList.Count)
+                {
+                    ModeDTO modeDto = new ModeDTO() { Mode = dsModes[i], Names = dsModes.Select(x => x.Name).ToList() };
+                    ShowEditorModeWindow?.Invoke(modeDto, e);
                 }
             }
         }
@@ -85,7 +123,7 @@ namespace Presenter
         {
 
             var e = (DataGridViewCellEventArgs)arg;
-            if (this.view.StepsDataGrid.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex < dsModes.Count && e.RowIndex >= 0)
+            if (this.view.StepsDataGrid.Columns[e.ColumnIndex].HeaderText == "Delete" && e.RowIndex < dsSteps.Count && e.RowIndex >= 0)
             {
                 int temp = e.RowIndex;
 
@@ -96,6 +134,21 @@ namespace Presenter
                     var id = dsSteps[i].ID;
                     dsSteps.RemoveAt(i);
                     bl.RemoveEntitySteps(id, e);
+                }
+            }
+            if (this.view.StepsDataGrid.Columns[e.ColumnIndex].HeaderText == "Edit" && e.RowIndex < dsSteps.Count && e.RowIndex >= 0)
+            {
+                if(stepsEditor == null)
+                {
+                   
+                }
+                int temp = e.RowIndex;
+
+                int i = -1;
+                if (int.TryParse(temp.ToString(), out i) && i != -1 && i < stepsOldList.Count)
+                {
+                    StepDTO modeDto = new StepDTO() { Step = dsSteps[i], Modes = dsModes.Select(x => x.ID).ToList() };
+                    ShowEditorStepWindow?.Invoke(modeDto,e);
                 }
             }
         }
@@ -114,6 +167,11 @@ namespace Presenter
                     deleteButtonColumn.UseColumnTextForButtonValue = true;
                     deleteButtonColumn.HeaderText = "Delete";
                     this.view.ModesDataGrid.Columns.Add(deleteButtonColumn);
+                    var editButtonColumn = new DataGridViewButtonColumn();
+                    editButtonColumn.Text = "Edit";
+                    editButtonColumn.UseColumnTextForButtonValue = true;
+                    editButtonColumn.HeaderText = "Edit";
+                    this.view.ModesDataGrid.Columns.Add(editButtonColumn);
                 }
                 else
                     dsModes.Clear();
@@ -140,6 +198,11 @@ namespace Presenter
                     deleteButtonColumn.UseColumnTextForButtonValue = true;
                     deleteButtonColumn.HeaderText = "Delete";
                     this.view.StepsDataGrid.Columns.Add(deleteButtonColumn);
+                    var editButtonColumn = new DataGridViewButtonColumn();
+                    editButtonColumn.Text = "Edit";
+                    editButtonColumn.UseColumnTextForButtonValue = true;
+                    editButtonColumn.HeaderText = "Edit";
+                    this.view.StepsDataGrid.Columns.Add(editButtonColumn);
                 }
                 else
                     dsSteps.Clear();

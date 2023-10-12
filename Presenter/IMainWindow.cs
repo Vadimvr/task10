@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Presenter
@@ -13,13 +14,27 @@ namespace Presenter
         event EventHandler OpenFile;
         event EventHandler UpdateDb;
         event EventHandler Unregister;
+
+        event EventHandler AddStepHandler;
+        event EventHandler AddModeHandler;
         string Email { get; }
         string Password { get; }
         string Path { get; }
+
+
         DataGridView StepsDataGrid { get; }
         DataGridView ModesDataGrid { get; }
 
+
         void SingIn(object sender, EventArgs e);
         void SingOut(object sender, EventArgs e);
+    }
+
+    public interface IEditorWindow
+    {
+        bool Visible { get; set; }
+        event EventHandler SaveEntity;
+        void ShowEditorWindow(object sender, EventArgs e);
+
     }
 }

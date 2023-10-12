@@ -9,7 +9,6 @@ namespace View
     {
         private readonly IMessageService message;
 
-
         public event EventHandler Login;
         public event EventHandler Register;
         public event EventHandler DeleteRowSteps;
@@ -18,14 +17,17 @@ namespace View
         public event EventHandler OpenFile;
         public event EventHandler UpdateDb;
         public event EventHandler Unregister;
+        public event EventHandler AddStepHandler;
+        public event EventHandler AddModeHandler;
 
         public DataGridView StepsDataGrid => StepsDataGridView;
         public string Email => emailTextBox.Text;
         public string Password => PasswordTextBox.Text;
         public string Path => throw new NotImplementedException();
         public DataGridView ModesDataGrid => ModeDataGridView;
+        IEditorWindow stepsEditor;
 
-        public MainWindow(IMessageService message)
+        public MainWindow(IMessageService message, IEditorWindow stepsEditor)
         {
             InitializeComponent();
             loginButton.Click += new EventHandler(loginButtonClick);
@@ -35,17 +37,29 @@ namespace View
 
             UnregisterButton.Click += new EventHandler(UnregisterClick);
 
+            AddNewStepButton.Click += (e, s) => AddStepHandler?.Invoke(e, s);
+            AddNewModeButton.Click += (e, s) => AddModeHandler?.Invoke(e, s);
+
+
             var deleteButtonColumn = new DataGridViewButtonColumn();
             StepsDataGridView.CellContentClick += StepsCellContentClick;
             ModeDataGridView.CellContentClick += ModesCellContentClick;
             StepsDataGridView.DataError += DataGridViewDataError;
             Unregister += SingOut;
             this.message = message;
+            this.stepsEditor = stepsEditor;
         }
-        System.Drawing.Point x; 
+
+        // удалить
+        private void OpenEditBoxClick(object sender, EventArgs e)
+        {
+            stepsEditor.Visible = !stepsEditor.Visible;
+        }
+
+        System.Drawing.Point x;
         public void SingIn(object sender, EventArgs e)
         {
-           // MainTabControl.Location = new System.Drawing.Point(6, 74);
+            // MainTabControl.Location = new System.Drawing.Point(6, 74);
             x = emailTextBox.Location;
             emailTextBox.Location = new System.Drawing.Point(10, x.Y);
             ShowHide();

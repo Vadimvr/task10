@@ -11,14 +11,16 @@ namespace BL
     public class Authorization
     {
         private IMessageService message;
-        private readonly IApplicationDB<Account, int> accountsDb;
+        private IAppDbContext context;
 
         public event EventHandler LoadDbHandler;
 
-        public Authorization(IMessageService message, IApplicationDB<Account, int> accountsDb)
+      
+
+        public Authorization(IMessageService message, IAppDbContext context)
         {
             this.message = message;
-            this.accountsDb = accountsDb;
+            this.context = context;
         }
 
         public void Register(string email, string password)
@@ -26,13 +28,13 @@ namespace BL
             if (!ValidateAccount.EmailCheck(email, this.message)
                 || !ValidateAccount.PasswordCheck(password, this.message)) return;
 
-            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email);
+            var acc = context.Accounts.FirstOrDefault(i => i.Email == email);
 
 
             if (acc == null)
             {
                 password = PasswordED.HashPassword(password);
-                accountsDb.Add(new Account() { Email = email, Password = password });
+                context.Accounts.Add(new Account() { Email = email, Password = password });
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
             else
@@ -43,7 +45,7 @@ namespace BL
 
         public void Login(string email, string password)
         {
-            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email);
+            var acc = context.Accounts.FirstOrDefault(i => i.Email == email);
             if (acc == null) { message.Show("Account not found"); return; }
 
             PasswordED.VerifyHashedPassword(acc.Password, password);

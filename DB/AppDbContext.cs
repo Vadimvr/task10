@@ -4,7 +4,7 @@ using System.Data.SQLite;
 
 namespace DB
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IAppDbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Mode> Modes { get; set; }
@@ -25,6 +25,9 @@ namespace DB
             base.OnModelCreating(modelBuilder);
 
         }
-
+        public override int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
     }
 }

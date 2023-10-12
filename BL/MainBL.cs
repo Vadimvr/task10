@@ -16,10 +16,12 @@ namespace BL
         event EventHandler LoadDbHandlerSteps;
 
         event EventHandler SingInHandler;
+        event EventHandler StepSaveHandler;
         //   event EventHandler DataUpdatedHandler;
         void OpenFile(object sender, EventArgs e);
         void RemoveEntityModes(object sender, EventArgs e);
         void RemoveEntitySteps(object sender, EventArgs e);
+        void StepSave(object sender, EventArgs e);
         void UpdateDb(object sender, EventArgs e);
     }
 
@@ -29,38 +31,49 @@ namespace BL
         IMessageService messageService;
         public Authorization Authorization { get; private set; }
 
-
+        internal readonly UpdateEntity updateEntity;
+        internal IAppDbContext context;
 
         private XLSXConversionToDB xlsxToDb;
 
-        private IApplicationDB<Step, int> stepsDb;
-        private IApplicationDB<Mode, int> modesDb;
-        private IApplicationDB<Account, int> accountsDb;
 
         public event EventHandler LoadDbHandlerModes;
         public event EventHandler LoadDbHandlerSteps;
         public event EventHandler SingInHandler;
+        public event EventHandler StepSaveHandler;
 
         public MainBL(IMessageService message, string connectingString = "")
         {
-            DB.AppDbContext context = new DB.AppDbContext(@"data source=" + connectingString);
+            context = new DB.AppDbContext(@"data source=" + connectingString);
 
-            stepsDb = new DbSQLite<Step, int>(context);
-            modesDb = new DbSQLite<Mode, int>(context);
-            accountsDb = new DbSQLite<Account, int>(context);
+            this.updateEntity = new UpdateEntity(context);
+
+            this.StepSaveHandler += updateEntity.EntitySave;
 
             this.ofd = new OpeFileService(message);
-            this.xlsxToDb = new XLSXConversionToDB(modesDb, stepsDb);
+            this.xlsxToDb = new XLSXConversionToDB(context);
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
-            this.Authorization = new Authorization(message, accountsDb);
+            this.Authorization = new Authorization(message, context);
             this.Authorization.LoadDbHandler += new EventHandler(SingIn);
             SingInHandler += LoadDbModes;
             SingInHandler += LoadDbSteps;
-            //this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
-            //  SingInHandler += SingIn;
         }
 
+
+        public void StepSave(object sender, EventArgs e)
+        {
+            if (sender is Step)
+            {
+                StepSaveHandler?.Invoke(sender, e);
+                LoadDbSteps(sender, e);
+            }
+            if (sender is Mode)
+            {
+                StepSaveHandler?.Invoke(sender, e);
+                LoadDbModes(sender, e);
+            }
+        }
         private void SingIn(object sender, EventArgs e) => SingInHandler?.Invoke(sender, e);
 
 
@@ -68,13 +81,13 @@ namespace BL
         {
             if (LoadDbHandlerModes != null)
             {
-                List<Mode> steps = new List<Mode>();
-                foreach (var item in modesDb.GetAll())
+                List<Mode> modes = new List<Mode>();
+                foreach (var item in context.Modes)
                 {
-                    steps.Add(item);
+                    modes.Add(item);
                 }
 
-                LoadDbHandlerModes(steps, EventArgs.Empty);
+                LoadDbHandlerModes(modes, EventArgs.Empty);
             }
         }
 
@@ -83,7 +96,7 @@ namespace BL
             if (LoadDbHandlerSteps != null)
             {
                 List<Step> steps = new List<Step>();
-                foreach (var item in stepsDb.GetAll())
+                foreach (var item in context.Steps)
                 {
                     steps.Add(item);
                 }
@@ -97,22 +110,33 @@ namespace BL
             var id = (int)sender;
             RemoveEntitySteps(id, e);
         }
+
         public void RemoveEntitySteps(int sender, EventArgs e)
         {
             var id = (int)sender;
-            stepsDb.Delete(id);
+            var step = context.Steps.FirstOrDefault(s => s.ID == id);
+            if (step != null)
+            {
+                context.Steps.Remove(step);
+                context.SaveChanges();
+            }
+
         }
+
         public void RemoveEntityModes(object sender, EventArgs e)
         {
             var id = (int)sender;
-            modesDb.Delete(id);
-
-            var steps = stepsDb.GetAll().Where(s => s.ModeID == id).ToList();
-            foreach (var step in steps)
+            var mode = context.Modes.FirstOrDefault(s => s.ID == id);
+            if (mode != null)
             {
-                RemoveEntitySteps(step.ID, e);
+                context.Modes.Remove(mode);
+                var steps = context.Steps.Where(s => s.ModeID == id);
+                foreach (var step in steps)
+                {
+                    RemoveEntitySteps(step.ID, e);
+                }
+                LoadDbSteps(sender, EventArgs.Empty);
             }
-            LoadDbSteps(sender, EventArgs.Empty);
         }
 
         public void OpenFile(object sender, EventArgs e)

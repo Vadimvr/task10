@@ -45,4 +45,10 @@ namespace Models
             return mode;
         }
     }
+
+    public class ModeDTO
+    {
+        public List<string> Names { get; set; }
+        public Mode Mode { get; set; }
+    }
 }

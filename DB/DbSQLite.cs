@@ -1,6 +1,7 @@
 ﻿using Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace DB
@@ -35,7 +36,8 @@ namespace DB
 
         public T Get(I id)
         {
-            return context.Set<T>().FirstOrDefault(t => t.ID.Equals(id));
+            T res = context.Set<T>().FirstOrDefault(t => t.ID.Equals(id));
+            return res;
         }
 
         public IEnumerable<T> GetAll()
@@ -43,13 +45,24 @@ namespace DB
             return context.Set<T>();
         }
 
-        public void Update(T t)
+        public void Update(T t, I id)
         {
-            if (t != null && Exists(t.ID))
+
+            IEnumerable<T> arr = context.Set<T>();
+            T old = null;
+            foreach (var item in arr)
             {
-                throw new NotImplementedException();
-                //context.Set<T>() .Updade(t).State = EntityState.Modified;
-                //context.SaveChanges();
+                if (item.ID.Equals(t.ID))
+                {
+                    old = item;
+                    break;
+                }
+            }
+
+            if (old != null)
+            {
+                context.Set<T>().AddOrUpdate(t);
+                context.SaveChanges() ;
             }
         }
         public bool Exists(I id)
