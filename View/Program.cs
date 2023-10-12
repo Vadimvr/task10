@@ -14,6 +14,10 @@ namespace View
         [STAThread]
         static void Main()
         {
+            string path = "e:\\";
+            string name = "MyDatabase12.sqlite";
+            string fullPath = path + name;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -21,7 +25,7 @@ namespace View
             StepsEditor stepsEditor = new StepsEditor(message);
             ModeEditor modeEditor = new ModeEditor(message);
             MainWindow view = new MainWindow(message, stepsEditor);
-            MainBL bl = new MainBL(message, @"E:\\test.db");
+            MainBL bl = new MainBL(message, fullPath);
             MainPresenter mainPresenter = new MainPresenter(view, stepsEditor, modeEditor, bl, message);
 
             Application.Run(view);

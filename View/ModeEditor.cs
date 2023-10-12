@@ -27,6 +27,13 @@ namespace View
             this.message = message;
             ExitModeButton.Click += (e, s) => this.Hide();
             SaveModeButton.Click += SaveModeClick;
+            this.FormClosing += MainForm_Closing;
+        }
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
         }
 
         private void SaveModeClick(object sender, EventArgs e)

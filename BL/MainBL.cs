@@ -3,6 +3,8 @@ using Models;
 using Presenter.MessageBox;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -44,7 +46,7 @@ namespace BL
 
         public MainBL(IMessageService message, string connectingString = "")
         {
-            context = new DB.AppDbContext(@"data source=" + connectingString);
+            context = CreateDB.Create(connectingString);
 
             this.updateEntity = new UpdateEntity(context);
 

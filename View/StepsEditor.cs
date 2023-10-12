@@ -2,10 +2,7 @@
 using Presenter;
 using Presenter.MessageBox;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace View
 {
@@ -24,6 +21,13 @@ namespace View
 
             ExitStepsEditor.Click += new EventHandler(ExitStepEditor);
             this.message = message;
+            this.FormClosing += MainForm_Closing;
+        }
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
         }
 
 
