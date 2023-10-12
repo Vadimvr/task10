@@ -62,7 +62,7 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(84, 53);
+            this.loginButton.Location = new System.Drawing.Point(104, 53);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(75, 23);
             this.loginButton.TabIndex = 0;
@@ -71,7 +71,7 @@
             // 
             // RegisterButton
             // 
-            this.RegisterButton.Location = new System.Drawing.Point(165, 53);
+            this.RegisterButton.Location = new System.Drawing.Point(185, 53);
             this.RegisterButton.Name = "RegisterButton";
             this.RegisterButton.Size = new System.Drawing.Size(75, 23);
             this.RegisterButton.TabIndex = 1;
@@ -80,21 +80,19 @@
             // 
             // emailTextBox
             // 
-            this.emailTextBox.Location = new System.Drawing.Point(84, 6);
+            this.emailTextBox.Location = new System.Drawing.Point(104, 7);
             this.emailTextBox.Name = "emailTextBox";
             this.emailTextBox.Size = new System.Drawing.Size(156, 20);
             this.emailTextBox.TabIndex = 2;
             this.emailTextBox.Tag = "";
-            this.emailTextBox.Text = "email@mail.com";
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(84, 27);
+            this.PasswordTextBox.Location = new System.Drawing.Point(104, 30);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(156, 20);
             this.PasswordTextBox.TabIndex = 3;
-            this.PasswordTextBox.Text = "password1";
             // 
             // StepsDataGridView
             // 
@@ -112,7 +110,7 @@
             // 
             // OpenFileButton
             // 
-            this.OpenFileButton.Location = new System.Drawing.Point(233, 3);
+            this.OpenFileButton.Location = new System.Drawing.Point(917, 5);
             this.OpenFileButton.Name = "OpenFileButton";
             this.OpenFileButton.Size = new System.Drawing.Size(75, 23);
             this.OpenFileButton.TabIndex = 5;
@@ -174,7 +172,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(734, 439);
+            this.tabPage2.Size = new System.Drawing.Size(980, 439);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Modes";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -205,7 +203,7 @@
             // 
             // UnregisterButton
             // 
-            this.UnregisterButton.Location = new System.Drawing.Point(152, 3);
+            this.UnregisterButton.Location = new System.Drawing.Point(836, 5);
             this.UnregisterButton.Name = "UnregisterButton";
             this.UnregisterButton.Size = new System.Drawing.Size(75, 23);
             this.UnregisterButton.TabIndex = 8;
