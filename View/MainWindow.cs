@@ -17,6 +17,7 @@ namespace View
         public event EventHandler DataGridViewDataErrorHandler;
         public event EventHandler OpenFile;
         public event EventHandler UpdateDb;
+        public event EventHandler Unregister;
 
         public DataGridView StepsDataGrid => StepsDataGridView;
         public string Email => emailTextBox.Text;
@@ -32,27 +33,55 @@ namespace View
             OpenFileButton.Click += new EventHandler(OpenFileClick);
             UpdateDbButton.Click += new EventHandler(UpdateDbClick);
 
+            UnregisterButton.Click += new EventHandler(UnregisterClick);
 
             var deleteButtonColumn = new DataGridViewButtonColumn();
             StepsDataGridView.CellContentClick += StepsCellContentClick;
             ModeDataGridView.CellContentClick += ModesCellContentClick;
             StepsDataGridView.DataError += DataGridViewDataError;
+            Unregister += SingOut;
             this.message = message;
         }
-
-        private void ModesCellContentClick(object sender, DataGridViewCellEventArgs e)
+        System.Drawing.Point x; 
+        public void SingIn(object sender, EventArgs e)
         {
-            if (DeleteRowModes != null) DeleteRowModes(sender, e);
+           // MainTabControl.Location = new System.Drawing.Point(6, 74);
+            x = emailTextBox.Location;
+            emailTextBox.Location = new System.Drawing.Point(10, x.Y);
+            ShowHide();
         }
+
+        public void SingOut(object sender, EventArgs e)
+        {
+            emailTextBox.Location = x;
+            ShowHide();
+        }
+
+        private void ShowHide()
+        {
+            UnregisterButton.Visible = !UnregisterButton.Visible;
+            RegisterButton.Visible = !RegisterButton.Visible;
+            loginButton.Visible = !loginButton.Visible;
+            emailTextBox.Enabled = !emailTextBox.Enabled;
+            PasswordTextBox.Visible = !PasswordTextBox.Visible;
+            OpenFileButton.Visible = !OpenFileButton.Visible;
+            MainTabControl.Visible = !MainTabControl.Visible;
+            labelEmail.Visible = !labelEmail.Visible;
+            labelPassword.Visible = !labelPassword.Visible;
+        }
+
+        private void UnregisterClick(object sender, EventArgs e) => Unregister?.Invoke(sender, e);
+        private void ModesCellContentClick(object sender, DataGridViewCellEventArgs e) => DeleteRowModes?.Invoke(sender, e);
+
 
         private void UpdateDbClick(object sender, EventArgs e)
         {
-            if(UpdateDb!= null) { UpdateDb(sender, e); }
+            if (UpdateDb != null) { UpdateDb(sender, e); }
         }
 
         private void OpenFileClick(object sender, EventArgs e)
         {
-            if(OpenFile !=null) { OpenFile(sender, e); }
+            if (OpenFile != null) { OpenFile(sender, e); }
         }
 
         private void StepsCellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -74,5 +103,6 @@ namespace View
         {
             if (Login != null) Login(s, e);
         }
+
     }
 }

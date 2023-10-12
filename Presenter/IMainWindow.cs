@@ -12,11 +12,14 @@ namespace Presenter
         event EventHandler DataGridViewDataErrorHandler;
         event EventHandler OpenFile;
         event EventHandler UpdateDb;
-
+        event EventHandler Unregister;
         string Email { get; }
         string Password { get; }
         string Path { get; }
         DataGridView StepsDataGrid { get; }
         DataGridView ModesDataGrid { get; }
+
+        void SingIn(object sender, EventArgs e);
+        void SingOut(object sender, EventArgs e);
     }
 }

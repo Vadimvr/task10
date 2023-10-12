@@ -14,7 +14,9 @@ namespace BL
 
         event EventHandler LoadDbHandlerModes;
         event EventHandler LoadDbHandlerSteps;
-     //   event EventHandler DataUpdatedHandler;
+
+        event EventHandler SingInHandler;
+        //   event EventHandler DataUpdatedHandler;
         void OpenFile(object sender, EventArgs e);
         void RemoveEntityModes(object sender, EventArgs e);
         void RemoveEntitySteps(object sender, EventArgs e);
@@ -28,19 +30,20 @@ namespace BL
         public Authorization Authorization { get; private set; }
 
 
-       
+
         private XLSXConversionToDB xlsxToDb;
-        
+
         private IApplicationDB<Step, int> stepsDb;
         private IApplicationDB<Mode, int> modesDb;
         private IApplicationDB<Account, int> accountsDb;
 
         public event EventHandler LoadDbHandlerModes;
         public event EventHandler LoadDbHandlerSteps;
+        public event EventHandler SingInHandler;
 
         public MainBL(IMessageService message, string connectingString = "")
         {
-            DB.AppDbContext context = new DB.AppDbContext(@"data source="+connectingString);
+            DB.AppDbContext context = new DB.AppDbContext(@"data source=" + connectingString);
 
             stepsDb = new DbSQLite<Step, int>(context);
             modesDb = new DbSQLite<Mode, int>(context);
@@ -51,9 +54,15 @@ namespace BL
             this.ofd.LoadExcelFile += this.xlsxToDb.FileISOpen;
             this.messageService = message;
             this.Authorization = new Authorization(message, accountsDb);
-            this.Authorization.LoadDbHandler += new EventHandler(LoadDbSteps);
-            this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
+            this.Authorization.LoadDbHandler += new EventHandler(SingIn);
+            SingInHandler += LoadDbModes;
+            SingInHandler += LoadDbSteps;
+            //this.Authorization.LoadDbHandler += new EventHandler(LoadDbModes);
+            //  SingInHandler += SingIn;
         }
+
+        private void SingIn(object sender, EventArgs e) => SingInHandler?.Invoke(sender, e);
+
 
         private void LoadDbModes(object sender, EventArgs e)
         {

@@ -15,6 +15,9 @@ namespace Presenter
         readonly IMainBL bl = null;
         readonly IMessageService message = null;
 
+        public event EventHandler SingInHandler;
+        public event EventHandler SingOutHandler;
+
         List<Step> stepsOldList;
         List<Mode> modesOldList;
 
@@ -24,14 +27,21 @@ namespace Presenter
         public MainPresenter(IMainWindow view, IMainBL bl, IMessageService message)
         {
             this.view = view;
-            this.message = message;
+
+            SingInHandler += this.view.SingIn;
+            SingOutHandler += this.view.SingOut;
+
+            this.message = message; 
             this.bl = bl;
+            this.bl.SingInHandler += this.view.SingIn;
+            
+            this.view.Unregister += ClearAllDataGrid;
 
             this.view.Login += new EventHandler(Login);
             this.view.Register += new EventHandler(Register);
+
             this.bl.LoadDbHandlerSteps += new EventHandler(LoadDataBaseSteps);
             this.bl.LoadDbHandlerModes += new EventHandler(LoadDataBaseModes);
-
             this.view.DeleteRowSteps += new EventHandler(RemoveEntitySteps);
             this.view.DeleteRowModes += new EventHandler(RemoveEntityModes);
 
@@ -40,6 +50,7 @@ namespace Presenter
 
             this.view.DataGridViewDataErrorHandler += new EventHandler(DataGridViewDataError);
         }
+
 
         private void RemoveEntityModes(object sender, EventArgs args)
         {
@@ -116,7 +127,6 @@ namespace Presenter
             }
         }
 
-
         private void LoadDataBaseSteps(object sender, EventArgs e)
         {
             if (sender is List<Step>)
@@ -141,6 +151,13 @@ namespace Presenter
                 }
 
             }
+        }
+
+        private void ClearAllDataGrid(object sender, EventArgs e)
+        {
+            dsSteps.Clear();
+            dsModes.Clear();
+
         }
 
         private void Register(object sender, EventArgs e)
