@@ -67,7 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorization.cs" />
+    <Compile Include="Verification\Authorization.cs" />
+    <Compile Include="Verification\PasswordED.cs" />
+    <Compile Include="Verification\ValidateAccount.cs" />
     <Compile Include="XLSXConversionToDB.cs" />
     <Compile Include="OpeFileService.cs" />
     <Compile Include="MainBL.cs" />

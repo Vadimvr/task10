@@ -1,7 +1,9 @@
-﻿using DB;
+﻿using BL.Validate;
+using DB;
 using Models;
 using Presenter.MessageBox;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace BL
@@ -10,10 +12,10 @@ namespace BL
     {
         private IMessageService message;
         private readonly IApplicationDB<Account, int> accountsDb;
-      
+
         public event EventHandler LoadDbHandler;
 
-        public Authorization(IMessageService message,IApplicationDB<Account, int> accountsDb)
+        public Authorization(IMessageService message, IApplicationDB<Account, int> accountsDb)
         {
             this.message = message;
             this.accountsDb = accountsDb;
@@ -21,9 +23,15 @@ namespace BL
 
         public void Register(string email, string password)
         {
+            if (!ValidateAccount.EmailCheck(email, this.message)
+                || !ValidateAccount.PasswordCheck(password, this.message)) return;
+
             var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email);
+
+
             if (acc == null)
             {
+                password = PasswordED.HashPassword(password);
                 accountsDb.Add(new Account() { Email = email, Password = password });
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
@@ -35,13 +43,16 @@ namespace BL
 
         public void Login(string email, string password)
         {
-            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email && i.Password == password);
+            var acc = accountsDb.GetAll().FirstOrDefault(i => i.Email == email);
+            if (acc == null) { message.Show("Account not found"); return; }
 
-            if (acc != null)
+            PasswordED.VerifyHashedPassword(acc.Password, password);
+
+            if (PasswordED.VerifyHashedPassword(acc.Password, password))
             {
                 if (LoadDbHandler != null) LoadDbHandler(this, EventArgs.Empty);
             }
-            else message.Show("Account not found");
+            else message.Show("Incorrect login or password");
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Linq;
 using testDataBase;
 using DB;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ConsoleApp
 {
@@ -14,15 +16,21 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
+            Console.ReadKey();
+        }
+
+
+        private static void FromDb()
+        {
             DB.AppDbContext context = new DB.AppDbContext(@"data source=E:\test.db;");
 
-            IApplicationDB<Step,int> stepsDb = new DbSQLite<Step, int>(context);
-            IApplicationDB<Mode,int> modesDb = new DbSQLite<Mode, int>(context);
-            IApplicationDB<Account,int> accountsDb = new DbSQLite<Account, int>(context);
+            IApplicationDB<Step, int> stepsDb = new DbSQLite<Step, int>(context);
+            IApplicationDB<Mode, int> modesDb = new DbSQLite<Mode, int>(context);
+            IApplicationDB<Account, int> accountsDb = new DbSQLite<Account, int>(context);
 
             foreach (var item in stepsDb.GetAll())
             {
-                Console.WriteLine( item);
+                Console.WriteLine(item);
             }
 
             accountsDb.Delete(1);

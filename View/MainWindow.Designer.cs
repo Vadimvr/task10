@@ -83,7 +83,7 @@
             this.emailTextBox.Size = new System.Drawing.Size(156, 20);
             this.emailTextBox.TabIndex = 2;
             this.emailTextBox.Tag = "";
-            this.emailTextBox.Text = "email";
+            this.emailTextBox.Text = "email@mail.com";
             // 
             // PasswordTextBox
             // 
@@ -92,7 +92,7 @@
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(156, 20);
             this.PasswordTextBox.TabIndex = 3;
-            this.PasswordTextBox.Text = "password";
+            this.PasswordTextBox.Text = "password1";
             // 
             // stepBindingSource
             // 
